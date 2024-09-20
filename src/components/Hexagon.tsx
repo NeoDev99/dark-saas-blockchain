@@ -1,6 +1,6 @@
-import { twMerge } from "tailwind-merge";
 import { useLayoutEffect, useRef, useState, type ComponentPropsWithoutRef } from "react";
 import { motion } from "framer-motion";
+import { twMerge } from "tailwind-merge";
 
 export const Hexagon = (
     props: ComponentPropsWithoutRef<'svg'> & { size?: number; reverse?: boolean; duration?: number }

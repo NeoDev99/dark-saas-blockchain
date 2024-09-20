@@ -1,0 +1,30 @@
+---
+import DefaultLayout from "../layouts/Default.astro";
+import InteriorHero from "../components/InteriorHero.astro";
+import InteriorContent from "../components/InteriorContent.astro";
+import { getCollection } from "astro:content";
+
+const positions = await getCollection("positions")
+---
+
+<DefaultLayout>
+    <InteriorHero>
+        <p class="uppercase font-extrabold text-center text-zinc-500 tracking-wider">
+            Join the team
+        </p>
+        <h1 class="font-heading font-black text-5xl md:text-6xl lg:text-7xl text-center mt-4">
+            We are hiring
+        </h1>
+        <p class="text-center text-xl md:text-2xl mt-6 max-w-xl mx-auto text-zinc-400">
+            We are always looking for talented individuals passionate about 
+            building blockchain products that make a difference.
+        </p>
+    </InteriorHero>
+    <InteriorContent>
+        <div class="pb-[1000px]">
+            {positions.map(position => (
+                <div>{position.data.title}</div>
+            ))}
+        </div>
+    </InteriorContent>
+</DefaultLayout>
