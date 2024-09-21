@@ -2,7 +2,11 @@
 import DefaultLayout from "../layouts/Default.astro";
 import InteriorHero from "../components/InteriorHero.astro";
 import InteriorContent from "../components/InteriorContent.astro";
+import { getColorFromPositionType, getColorFromPositionCategory } from "../utils/postUtils";
 import { getCollection } from "astro:content";
+import { Card } from "../components/Card";
+import { Tag } from "../components/Tag";
+import { motion } from "framer-motion";
 
 const positions = await getCollection("positions")
 ---
@@ -21,9 +25,36 @@ const positions = await getCollection("positions")
         </p>
     </InteriorHero>
     <InteriorContent>
-        <div class="pb-[1000px]">
-            {positions.map(position => (
-                <div>{position.data.title}</div>
+        <div class="flex flex-col gap-12">
+            {positions.map(({ data: { title, type, description, category, remote }})  => (
+                <motion.a
+                    client:load
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{
+                        once: true,
+                        amount: 0.5
+                    }}
+                    transition={{
+                        duration: 0.5,
+                        ease: "easeIn"
+                    }}
+                    href="/contact"
+                >
+                    <Card
+                        color={getColorFromPositionCategory(category)}
+                        buttonText="Apply Now"
+                    >
+                        <div class="flex items-center gap-3">
+                            {remote && <Tag>Remote</Tag>}
+                            <Tag color={getColorFromPositionType(type)}>{type}</Tag>
+                        </div>
+                        <h2 class="text-3xl font-black font-heading mt-6">
+                            {title}
+                        </h2>
+                        <p class="text-xl text-zinc-400 mt-4">{description}</p>
+                    </Card>
+                </motion.a>
             ))}
         </div>
     </InteriorContent>
